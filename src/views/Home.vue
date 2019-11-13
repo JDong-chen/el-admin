@@ -1,18 +1,37 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <el-container id="mainCon">
+    <d-menu>
+      <div slot="bigLogo">
+        StoryMan
+      </div>
+      <span slot="smallLogo" class="el-icon-menu"></span>
+    </d-menu>
+    <el-main>
+      <main-header></main-header>
+      <transition name="myfade">
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import AsideMenu from "@/components/AsideMenu.vue"
+import MainHeader from "@/components/MainHeader.vue"
 
 export default {
-  name: "home",
   components: {
-    HelloWorld
+    AsideMenu,
+    MainHeader
   }
-};
+}
 </script>
+
+<style lang="less" scoped>
+.el-main {
+  overflow: hidden;
+  padding: 20px 0;
+}
+</style>

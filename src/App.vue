@@ -1,29 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="myapp">
+    <transition name="myfade">
+      <router-view id="rv"></router-view>
+    </transition>
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  name: "app",
+  computed:{
+    ...mapGetters(["getisLogin"])
+  },
+  watch: {
+    getisLogin (value, oldValue) {
+      typeof value !== undefined && value === "offline"
+        ? this.$router.push("/")
+        : this.$router.push("/home");
     }
+  },
+  created () {
+    if (sessionStorage.SS_ISLOGIN) return;
+    this.$store.dispatch("changeLineState", "offline");
   }
+};
+</script>
+
+<style lang="less">
+ #rv {
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   height: 100vh;
+ }
+
+.myfade-enter-active {
+  transition: opacity .5s linear
+}
+.myfade-enter {
+  opacity: 0;
 }
 </style>
